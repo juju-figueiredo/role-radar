@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./style.css">
+<title>Role Radar</title>
+<script src="./app.js" defer></script>
+</head>
+<body>
+<main>
+<header>
+  <div class="masthead"><img src="./icon-192.png" width="40" height="40" alt=""> <span>Role Radar</span><button id="refresh" aria-label="Refresh job feed" title="Refresh job feed">↻</button></div>
+  <h1 id="page-title">Discover</h1>
+  <p id="freshness" role="status">Loading job feed…</p>
+</header>
+<section id="browse" aria-label="Job filters">
+  <input id="search" type="search" placeholder="Search roles or companies" aria-label="Search roles or companies">
+  <div id="filters" class="filters" role="group" aria-label="Industry">
+    <button data-sector="All" aria-pressed="true">All</button>
+    <button data-sector="AI" aria-pressed="false">AI</button>
+    <button data-sector="Tech" aria-pressed="false">Tech</button>
+    <button data-sector="Finance" aria-pressed="false">Finance</button>
+  </div>
+</section>
+<section id="results" aria-label="Job results">
+  <h2 id="count"></h2>
+  <div id="cards"></div>
+  <button id="more" hidden>Show more</button>
+</section>
+<details id="sources"><summary>Source status</summary><ul id="source-list"></ul></details>
+</main>
+<nav aria-label="Job views">
+  <button data-view="Discover" aria-current="page"><span aria-hidden="true">⌕</span>Discover</button>
+  <button data-view="Saved"><span aria-hidden="true">☆</span>Saved</button>
+  <button data-view="Applied"><span aria-hidden="true">✓</span>Applied</button>
+</nav>
+<template id="job-card">
+  <article>
+    <div class="job-top"><span class="company"></span><span class="match"></span></div>
+    <h3></h3>
+    <p class="location"></p>
+    <p class="reason"></p>
+    <div class="actions"><a target="_blank" rel="noopener noreferrer">View posting ↗</a><button class="save"></button><button class="apply"></button></div>
+  </article>
+</template>
+</body>
+</html>
