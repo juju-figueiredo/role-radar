@@ -45,8 +45,34 @@
     <h3></h3>
     <p class="location"></p>
     <p class="reason"></p>
-    <div class="actions"><a target="_blank" rel="noopener noreferrer">View posting ↗</a><button class="save"></button><button class="apply"></button></div>
+    <div class="actions"><a target="_blank" rel="noopener noreferrer">View posting ↗</a><button class="prepare">Prepare application</button><button class="save"></button><button class="apply"></button></div>
   </article>
 </template>
+<dialog id="apply-kit" aria-labelledby="kit-title">
+  <form method="dialog" class="kit-shell">
+    <div class="kit-heading"><div><p class="eyebrow">APPLICATION KIT</p><h2 id="kit-title">Prepare your application</h2></div><button class="close-kit" aria-label="Close">×</button></div>
+    <p id="kit-role" class="kit-role"></p>
+    <div class="kit-links"><a id="kit-open" target="_blank" rel="noopener noreferrer">Open employer application ↗</a><button id="copy-url" type="button">Copy application URL</button></div>
+    <label for="kit-intro">Intro message</label>
+    <textarea id="kit-intro" rows="5"></textarea>
+    <button id="copy-intro" type="button" class="copy-draft">Copy intro message</button>
+    <label for="kit-why">Why this role</label>
+    <textarea id="kit-why" rows="4"></textarea>
+    <button id="copy-why" type="button" class="copy-draft">Copy answer</button>
+    <p id="kit-status" role="status" aria-live="polite"></p>
+    <details class="profile-panel">
+      <summary>Your application profile (saved on this device)</summary>
+      <label for="profile-summary">Professional summary</label>
+      <textarea id="profile-summary" rows="3" placeholder="Your experience, strengths, and sectors"></textarea>
+      <label for="profile-proof">Proof point</label>
+      <textarea id="profile-proof" rows="3" placeholder="A result, launch, partnership, or market expansion you can discuss"></textarea>
+      <label for="profile-interest">What you want to focus on</label>
+      <input id="profile-interest" type="text" placeholder="For example: AI partnerships and LATAM growth">
+      <button id="save-profile" type="button" class="profile-save">Save profile and refresh drafts</button>
+      <p id="profile-status" role="status">Profile details stay in this browser and are not sent to Role Radar.</p>
+    </details>
+    <p class="kit-note">Review and edit each draft before using it. Role Radar prepares text and opens the employer site; you complete and submit the application there.</p>
+  </form>
+</dialog>
 </body>
 </html>

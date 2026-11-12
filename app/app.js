@@ -2,6 +2,7 @@
 const byId = id => document.getElementById(id);
 const normalize = value => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const storageKey = "role-radar-tracker-v1";
+const profileKey = "role-radar-application-profile-v1";
 let tracker = {};
 try { tracker = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch {}
 let feed = {jobs: [], sources: {}};
@@ -9,6 +10,69 @@ let currentView = "Discover";
 let sector = "All";
 let pageSize = 24;
 let offline = false;
+let preparedJob = null;
+
+function applicationProfile() {
+  try { return JSON.parse(localStorage.getItem(profileKey)) || {}; }
+  catch { return {}; }
+}
+
+function setProfileFields(profile) {
+  byId("profile-summary").value = profile.summary || "";
+  byId("profile-proof").value = profile.proof || "";
+  byId("profile-interest").value = profile.interest || "";
+}
+
+function makeDrafts(job) {
+  const profile = applicationProfile();
+  const summary = (profile.summary || "").trim();
+  const proof = (profile.proof || "").trim();
+  const interest = (profile.interest || "").trim();
+  const title = job.title.trim();
+  const company = job.company.trim();
+  const market = job.location && job.location !== "Location unspecified" ? ` (${job.location})` : "";
+  const intro = [
+    `Hello ${company} team,`,
+    `I'm interested in the ${title} role${market}.`,
+    summary,
+    proof ? `One relevant result: ${proof}` : "",
+    `I'd welcome a conversation about the role and how I could contribute.`
+  ].filter(Boolean).join("\n\n");
+  const focus = /partnership|business development|ecosystem|gtm|go.to.market/i.test(title) ? "partnerships and business development" :
+    /latam|latin america|brazil|brasil|market expansion|country manager/i.test(title) ? "market expansion and regional growth" :
+    /investor relation|fundrais|origination|private credit|capital/i.test(title) ? "capital formation and investor relationships" :
+    `${job.sector.toLowerCase()} and ${title.toLowerCase()}`;
+  const why = [
+    `I'm interested in the ${title} opportunity at ${company} because it focuses on ${focus}.`,
+    interest ? `That connects with my interest in ${interest}.` : "The role's scope and market are a strong match for the work I want to pursue.",
+    proof ? `A relevant example from my background is ${proof}` : "I'd be glad to share examples of my relevant work in a conversation."
+  ].join("\n\n");
+  return {intro, why};
+}
+
+function openApplicationKit(job) {
+  preparedJob = job;
+  const url = new URL(job.url);
+  byId("kit-role").textContent = `${job.title} · ${job.company} · ${job.location}`;
+  byId("kit-open").href = url.protocol === "https:" ? url.href : "#";
+  byId("kit-open").setAttribute("aria-disabled", url.protocol !== "https:");
+  byId("copy-url").dataset.url = url.protocol === "https:" ? url.href : "";
+  setProfileFields(applicationProfile());
+  const drafts = makeDrafts(job);
+  byId("kit-intro").value = drafts.intro;
+  byId("kit-why").value = drafts.why;
+  byId("kit-status").textContent = "";
+  byId("apply-kit").showModal();
+}
+
+async function copyText(value, message) {
+  try {
+    await navigator.clipboard.writeText(value);
+    byId("kit-status").textContent = message;
+  } catch {
+    byId("kit-status").textContent = "Clipboard access is unavailable. Select and copy the text manually.";
+  }
+}
 
 function assess(job) {
   const title = normalize(job.title);
@@ -70,6 +134,7 @@ function render() {
       const url = new URL(job.url);
       if (url.protocol === "https:") link.href = url.href;
     } catch {}
+    card.querySelector(".prepare").onclick = () => openApplicationKit(job);
     const status = tracker[job.id]?.status;
     for (const [selector, state, label, selected] of [
       [".save","Saved","Save","Remove saved"],
@@ -137,5 +202,24 @@ document.querySelectorAll("[data-sector]").forEach(button => button.onclick = ()
 byId("search").oninput = () => {pageSize = 24; render();};
 byId("more").onclick = () => {pageSize += 24; render();};
 byId("refresh").onclick = refresh;
+byId("copy-url").onclick = () => copyText(byId("copy-url").dataset.url || "", "Application URL copied.");
+byId("copy-intro").onclick = () => copyText(byId("kit-intro").value, "Intro message copied.");
+byId("copy-why").onclick = () => copyText(byId("kit-why").value, "Answer copied.");
+byId("save-profile").onclick = () => {
+  const profile = {
+    summary: byId("profile-summary").value.trim(),
+    proof: byId("profile-proof").value.trim(),
+    interest: byId("profile-interest").value.trim()
+  };
+  try {
+    localStorage.setItem(profileKey, JSON.stringify(profile));
+    const drafts = makeDrafts(preparedJob);
+    byId("kit-intro").value = drafts.intro;
+    byId("kit-why").value = drafts.why;
+    byId("profile-status").textContent = "Profile saved on this device. Drafts refreshed; review them before use.";
+  } catch {
+    byId("profile-status").textContent = "Device storage is unavailable. Profile changes were not saved.";
+  }
+};
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(console.warn);
 refresh();

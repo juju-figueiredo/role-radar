@@ -28,6 +28,10 @@ The Python collector reads the public Ashby, Greenhouse and Lever boards in `scr
 
 The current feed lives in `app/data/jobs.json` and its history lives in Git. The service worker caches the app and a successfully loaded feed for offline access. Saved and applied states use device-local browser storage and stay on that installation. Clearing website data can remove them. Remote eligibility is often ambiguous, so confirm geography in the employer posting. The match labels reflect transparent title, market and industry signals and are meant to prioritize what to review.
 
+## Prepare applications
+
+Choose **Prepare application** on a role to open its employer URL, copy that URL, and edit a short intro message and a role-specific answer. Add your professional summary, one proof point, and focus areas under **Your application profile** to personalize future drafts. These profile details stay in the current browser's local storage and are not sent to Role Radar. Review every draft for accuracy, then complete and submit the form on the employer's site. The app does not submit applications for you.
+
 ## Run locally
 
 ```sh

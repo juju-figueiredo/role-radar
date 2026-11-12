@@ -34,4 +34,23 @@ nav [aria-current=page]{font-weight:750;color:var(--accent)}
 details{margin-top:20px;color:var(--muted);font-size:.84rem}
 summary{cursor:pointer;padding:12px 0}
 .empty{padding:18px;background:var(--card);border-radius:14px;color:var(--muted)}
+#apply-kit{width:min(620px,calc(100% - 24px));max-height:min(90dvh,920px);padding:0;border:1px solid var(--line);border-radius:22px;background:var(--bg);color:var(--text)}
+#apply-kit::backdrop{background:rgba(10,10,18,.58);backdrop-filter:blur(3px)}
+.kit-shell{padding:20px;display:flex;flex-direction:column;gap:10px}
+.kit-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.kit-heading h2{font-size:1.45rem;color:var(--text);margin:0}
+.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.1em;font-size:.68rem;margin:0 0 4px}
+.close-kit{font-size:27px;line-height:1;min-width:44px;border-radius:50%;background:var(--card)}
+.kit-role{margin:0;color:var(--muted);font-weight:650}
+.kit-links{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;padding:9px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kit-links a,.kit-links button,.copy-draft{color:var(--accent);font-weight:700;text-decoration:none}
+.kit-shell label{font-weight:700;font-size:.9rem;margin-top:3px}
+.kit-shell textarea{resize:vertical;min-height:90px;width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;color:var(--text);background:var(--card);font:inherit;line-height:1.45}
+.kit-shell input{font-size:.92rem}
+.copy-draft,.profile-save{align-self:flex-start;min-height:40px;padding:0 13px;border-radius:20px;background:var(--tint)}
+.profile-panel{border-top:1px solid var(--line);padding-top:7px}
+.profile-panel summary{font-weight:700;color:var(--text)}
+.profile-panel label{display:block;margin:10px 0 4px}
+.profile-save{margin-top:10px;background:var(--accent);color:var(--bg)}
+#profile-status,.kit-note{font-size:.78rem;color:var(--muted);margin:2px 0}
 [hidden]{display:none!important}
