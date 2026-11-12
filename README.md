@@ -32,7 +32,7 @@ The current feed lives in `app/data/jobs.json` and its history lives in Git. The
 
 Choose **Prepare application** on a role to open its employer URL, copy that URL, and edit a short intro message and a role-specific answer. Add your professional summary, one proof point, and focus areas under **Your application profile** to personalize future drafts. These profile details stay in the current browser's local storage and are not sent to Role Radar. Review every draft for accuracy, then complete and submit the form on the employer's site. The app does not submit applications for you.
 
-The work setup filter can show roles explicitly marked remote, while the work location filter narrows to San Francisco, Miami, or roles in/remote-eligible for Brazil. Employer feeds vary in how they describe remote eligibility; confirm work-from country rules and office expectations in the posting.
+The work setup filter can show roles explicitly marked remote, while the work location filter narrows to San Francisco, Miami, or roles in/remote-eligible for Brazil. A remote listing with no region listed is included for Brazil with a **Confirm Brazil eligibility** label. Employer feeds vary in how they describe remote eligibility; confirm work-from country rules and office expectations in the posting.
 
 ## Run locally
 

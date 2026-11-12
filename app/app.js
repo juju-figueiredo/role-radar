@@ -113,7 +113,8 @@ function fitsWorkMarket(job) {
   if (globalRemote) return true;
   if (workMarket === "Brazil") {
     const brazilOrLatam = /\b(brazil|brasil|latam|latin america|america latina)\b/.test(location);
-    return brazilOrLatam && (workMode !== "Remote" || remote);
+    const remoteCountryUnspecified = workMode === "Remote" && remote && /^remote$/.test(location);
+    return (brazilOrLatam && (workMode !== "Remote" || remote)) || remoteCountryUnspecified;
   }
   const officeMatch = workMarket === "San Francisco"
     ? /\bsan francisco\b/.test(location)
@@ -151,7 +152,8 @@ function render() {
   for (const job of matches.slice(0,pageSize)) {
     const card = byId("job-card").content.cloneNode(true);
     card.querySelector(".company").textContent = `${job.company} · ${job.sector}`;
-    card.querySelector(".match").textContent = job.unconfirmed ? "Listing unconfirmed" : job.stale ? "Check availability" : job.score >= 70 ? "Strong match" : "Worth a look";
+    const locationUnclear = workMode === "Remote" && workMarket === "Brazil" && isRemoteOnly(job) && /^remote$/.test(normalize(job.location));
+    card.querySelector(".match").textContent = job.unconfirmed ? "Listing unconfirmed" : locationUnclear ? "Confirm Brazil eligibility" : job.stale ? "Check availability" : job.score >= 70 ? "Strong match" : "Worth a look";
     card.querySelector("h3").textContent = job.title;
     card.querySelector(".location").textContent = job.location;
     card.querySelector(".reason").textContent = job.reasons.join(" · ");
