@@ -16,6 +16,10 @@ input{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line);
 .filters{margin:10px 0 22px;flex-wrap:wrap}
 .filters button,#more{padding:0 15px;border-radius:22px;background:var(--card);font-weight:650}
 .filters [aria-pressed=true]{background:var(--accent);color:var(--bg)}
+.work-filters{margin-top:-8px}
+.work-filters .filters{margin:2px 0 12px}
+.filter-label{margin:0 0 3px;font-size:.82rem;font-weight:750;color:var(--muted)}
+.filter-note{margin:0 0 14px;font-size:.76rem;color:var(--muted)}
 h2{font-size:.88rem;color:var(--muted);margin:0 0 10px}
 article{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;border:1px solid var(--line)}
 .job-top{justify-content:space-between;align-items:flex-start}

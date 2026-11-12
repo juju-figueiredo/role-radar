@@ -1,6 +1,6 @@
 # Role Radar
 
-Role Radar is an installable job search app for senior partnerships, business development, LATAM expansion, origination, private credit and investor relations roles. It favors AI and the Miami, Bay Area, Brazil and remote markets. Use Discover to browse, filter and search. Save an opening for later or mark it as applied after submitting it with the employer.
+Role Radar is an installable job search app for senior partnerships, business development, LATAM expansion, origination, private credit and investor relations roles. It favors AI and the Miami, Bay Area, Brazil and remote markets. Use Discover to browse, search, filter by industry, work setup, and preferred work location. Save an opening for later or mark it as applied after submitting it with the employer.
 
 ## Publish on GitHub
 
@@ -31,6 +31,8 @@ The current feed lives in `app/data/jobs.json` and its history lives in Git. The
 ## Prepare applications
 
 Choose **Prepare application** on a role to open its employer URL, copy that URL, and edit a short intro message and a role-specific answer. Add your professional summary, one proof point, and focus areas under **Your application profile** to personalize future drafts. These profile details stay in the current browser's local storage and are not sent to Role Radar. Review every draft for accuracy, then complete and submit the form on the employer's site. The app does not submit applications for you.
+
+The work setup filter can show roles explicitly marked remote, while the work location filter narrows to San Francisco, Miami, or roles in/remote-eligible for Brazil. Employer feeds vary in how they describe remote eligibility; confirm work-from country rules and office expectations in the posting.
 
 ## Run locally
 

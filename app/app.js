@@ -8,6 +8,8 @@ try { tracker = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch {}
 let feed = {jobs: [], sources: {}};
 let currentView = "Discover";
 let sector = "All";
+let workMode = "Any";
+let workMarket = "Any";
 let pageSize = 24;
 let offline = false;
 let preparedJob = null;
@@ -98,6 +100,29 @@ function assess(job) {
   return {...job, score, reasons};
 }
 
+function isRemoteOnly(job) {
+  const location = normalize(job.location);
+  return /\b(remote|remoto)\b/.test(location) && !(/\bhybrid\b|\bin[\s-]?office\b|\bon[\s-]?site\b/.test(location));
+}
+
+function fitsWorkMarket(job) {
+  if (workMarket === "Any") return true;
+  const location = normalize(job.location);
+  const remote = isRemoteOnly(job);
+  const globalRemote = remote && /\b(global|worldwide|anywhere|work from anywhere)\b/.test(location);
+  if (globalRemote) return true;
+  if (workMarket === "Brazil") {
+    const brazilOrLatam = /\b(brazil|brasil|latam|latin america|america latina)\b/.test(location);
+    return brazilOrLatam && (workMode !== "Remote" || remote);
+  }
+  const officeMatch = workMarket === "San Francisco"
+    ? /\bsan francisco\b/.test(location)
+    : /\bmiami\b/.test(location);
+  const nonUS = /\b(canada|uk|united kingdom|emea|europe|india|australia|germany|france|poland|japan|singapore|china|brazil|brasil|latam|latin america|dubai|uae|mexico)\b/.test(location);
+  if (workMode === "Remote") return remote && !nonUS;
+  return officeMatch || (remote && !nonUS);
+}
+
 function render() {
   const list = byId("cards");
   const query = normalize(byId("search").value.trim());
@@ -107,7 +132,8 @@ function render() {
       active.get(entry.job.id) || {...entry.job, stale: true, unconfirmed: true});
   const matches = jobs.map(assess).filter(job => currentView !== "Discover" ||
     (job.score >= 39 && tracker[job.id]?.status !== "Applied" && (sector === "All" || sector === job.sector) &&
-      normalize([job.title,job.company,job.location].join(" ")).includes(query)))
+      normalize([job.title,job.company,job.location].join(" ")).includes(query) &&
+      (workMode !== "Remote" || isRemoteOnly(job)) && fitsWorkMarket(job)))
     .sort((a,b) => b.score-a.score || (b.firstSeen || "").localeCompare(a.firstSeen || "") || a.title.localeCompare(b.title));
   byId("page-title").textContent = currentView;
   byId("browse").hidden = currentView !== "Discover";
@@ -196,6 +222,20 @@ document.querySelectorAll("[data-sector]").forEach(button => button.onclick = ()
   document.querySelector("[data-sector][aria-pressed=true]").setAttribute("aria-pressed","false");
   button.setAttribute("aria-pressed","true");
   sector = button.dataset.sector;
+  pageSize = 24;
+  render();
+});
+document.querySelectorAll("[data-work-mode]").forEach(button => button.onclick = () => {
+  document.querySelector("[data-work-mode][aria-pressed=true]").setAttribute("aria-pressed","false");
+  button.setAttribute("aria-pressed","true");
+  workMode = button.dataset.workMode;
+  pageSize = 24;
+  render();
+});
+document.querySelectorAll("[data-work-market]").forEach(button => button.onclick = () => {
+  document.querySelector("[data-work-market][aria-pressed=true]").setAttribute("aria-pressed","false");
+  button.setAttribute("aria-pressed","true");
+  workMarket = button.dataset.workMarket;
   pageSize = 24;
   render();
 });

@@ -26,6 +26,21 @@
     <button data-sector="Tech" aria-pressed="false">Tech</button>
     <button data-sector="Finance" aria-pressed="false">Finance</button>
   </div>
+  <div class="work-filters">
+    <p class="filter-label">Work setup</p>
+    <div class="filters" role="group" aria-label="Work setup">
+      <button data-work-mode="Any" aria-pressed="true">Any setup</button>
+      <button data-work-mode="Remote" aria-pressed="false">Remote only</button>
+    </div>
+    <p class="filter-label">Work from</p>
+    <div class="filters" role="group" aria-label="Preferred work location">
+      <button data-work-market="Any" aria-pressed="true">Any location</button>
+      <button data-work-market="San Francisco" aria-pressed="false">San Francisco</button>
+      <button data-work-market="Miami" aria-pressed="false">Miami</button>
+      <button data-work-market="Brazil" aria-pressed="false">Anywhere in Brazil</button>
+    </div>
+    <p class="filter-note">Remote only excludes hybrid and on-site labels. Confirm permitted countries and office requirements in the employer posting.</p>
+  </div>
 </section>
 <section id="results" aria-label="Job results">
   <h2 id="count"></h2>
